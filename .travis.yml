@@ -4,7 +4,7 @@ language: perl
 cache: bundler
 
 bundler_args: "--deployment"
-sudo: false
+sudo: required
 
 perl:
 - '5.24'
@@ -16,7 +16,7 @@ perl:
 - '5.12'
 
 before_install:
-- apt-get install -qq libgd2-xpm-dev
+- sudo apt-get install -qq libgd2-xpm-dev
 
 install:
 - dzil authordeps | grep -vP '[^\w:]' | cpanm -v --notest --skip-satisfied
