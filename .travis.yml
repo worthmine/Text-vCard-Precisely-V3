@@ -1,10 +1,11 @@
-#dist: precise
-
 language: perl
 cache: bundler
 
 bundler_args: "--deployment"
 sudo: required
+
+#dist: precise
+dist: trusty
 
 perl:
 - '5.24'
