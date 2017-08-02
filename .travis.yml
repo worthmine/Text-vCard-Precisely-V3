@@ -1,6 +1,8 @@
 language: perl
 cache: bundler
 
+dist: precise
+
 bundler_args: "--deployment"
 sudo: false
 
@@ -13,9 +15,13 @@ perl:
 - '5.14'
 - '5.12'
 
+before_install:
+sudo apt-get install -qq libgd2-xpm-dev
+
 install:
 - dzil authordeps | grep -vP '[^\w:]' | cpanm -v --notest --skip-satisfied
-- dzil listdeps   | grep -vP '[^\w:]' | grep -vP '^GD' | cpanm -v --skip-satisfied
+#- dzil listdeps   | grep -vP '[^\w:]' | grep -vP '^GD' | cpanm -v --skip-satisfied
+- dzil listdeps   | grep -vP '[^\w:]' | cpanm -v --skip-satisfied
 
 script:
 - dzil authordeps --missing | cpanm --verbose --notest --skip-satisfied
