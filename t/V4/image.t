@@ -112,9 +112,9 @@ SKIP: {
     my $raw2 = $gd->jpeg;
 
     @expected = ();
-    $in_file = path( 't', 'V3', 'Image', 'maltiple_gd.vcf' );
+    $in_file = path( 't', 'V4', 'Image', 'maltiple_gd.vcf' );
     push @expected, $in_file->slurp_utf8;
-    $in_file = path( 't', 'V3', 'Image', 'maltiple_gd2.vcf' );
+    $in_file = path( 't', 'V4', 'Image', 'maltiple_gd2.vcf' );
     push @expected, $in_file->slurp_utf8;
 
     $vc->photo([
