@@ -122,7 +122,7 @@ SKIP: {
         { media_type => 'image/jpeg', content => $raw2 },
     ]);
     $vc->logo( { media_type => 'image/png', content => $raw } );
-    my $got = $vc->as_string;
+    $got = $vc->as_string;
     if ( first{ $got eq $_ } @expected ){                                # 7
         pass 'photo(ArrayRef of Hashref of raw)';
     }else{
