@@ -415,7 +415,7 @@ This module uses C<\P{ascii}> in regexp so You have to use 5.12.5 and later
 
 And this module uses Data::Validate::URI and it has bug on 5.8.x. so I can't support them
 
-=head2 SEE ALOSO
+=head2 SEE ALSO
 
 =over
 
