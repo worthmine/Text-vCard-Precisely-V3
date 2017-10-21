@@ -448,3 +448,7 @@ L<GitHub|https://github.com/worthmine/Text-vCard-Precisely>
 =head2 AUTHOR
 
 L<Yuki Yoshida(worthmine)|https://github.com/worthmine>
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under the same terms as Perl.
