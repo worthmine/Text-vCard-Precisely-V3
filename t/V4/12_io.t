@@ -60,23 +60,6 @@ SKIP: {
     is diff( $fh_got, $fh_expected ), '', 'as_file()';  # 3
     close $fh_got;
     close $fh_expected;
-
-    note 'Got';
-    open my $fh, '<', $got;
-    while( my $l = <$fh> ){
-        $l =~ s/\r\n/\\r\\n\r\n/sg;
-        note $l;
-    }
-    close $fh;
-
-    note "\r\nExpected";
-    open $fh, '<', $expected;
-    while( my $l = <$fh> ){
-        $l =~ s/\r\n/\\r\\n\r\n/sg;
-        $l =~ s/\n/\\n\n/sg;
-        note $l;
-    }
-    close $fh;
 }
 SKIP: {
     skip "it's a Windows PC", 1 if $^O eq 'MSWin32';
@@ -85,9 +68,6 @@ SKIP: {
     is diff( $fh_got, $fh_expected ), '', 'as_file()';  # 3
     close $fh_got;
     close $fh_expected;
-    #while( my $l = <$fh> ){
-    #     note $l;
-    # }
 }
 $got->remove();
 
