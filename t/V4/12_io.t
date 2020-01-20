@@ -3,7 +3,7 @@ use warnings;
 use Test::More tests => 5;
 use Data::Section::Simple qw(get_data_section);
 use Path::Tiny qw(path);
-use File::Compare;
+use File::Compare qw(compare_text);
 
 use lib qw(./lib);
 
