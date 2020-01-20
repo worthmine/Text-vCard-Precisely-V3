@@ -55,13 +55,18 @@ my $got = path('got.vcf');
 SKIP: {
     skip "it's not a Windows PC", 1 unless $^O eq 'MSWin32';
     is compare( $got, path( 't', 'V4', 'Expected', 'win32.vcf' ) ), 0, 'as_file()'; # 2
-    while( my $l = <$got>){
+    open my $fh, '<', $got;
+    while( my $l = <$fh>){
         note $l;
     }
 }
 SKIP: {
     skip "it's a Windows PC", 1 if $^O eq 'MSWin32';
     is compare( $got, path( 't', 'V4', 'Expected', 'unix.vcf' ) ), 0, 'as_file()';  # 3
+    open my $fh, '<', $got;
+    while( my $l = <$fh>){
+         note $l;
+     }
 }
 $got->remove();
 
