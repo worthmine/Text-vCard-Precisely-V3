@@ -55,7 +55,7 @@ my $got = path('got.vcf');
 SKIP: {
     skip "it's not a Windows PC", 1 unless $^O eq 'MSWin32';
     is compare_text(
-        $got, path( 't', 'V4', 'Expected', 'win32.vcf' ), sub { return $_[0] if $_[0] ne $_[1]}; return 0 )
+        $got, path( 't', 'V4', 'Expected', 'win32.vcf' ), sub{ return $_[0] if $_[0] ne $_[1]; return 0 } 
     ), 0, 'as_file()'; # 2
 
     note 'Got';
