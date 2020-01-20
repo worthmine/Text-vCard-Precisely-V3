@@ -1,1 +1,17 @@
-BEGIN:VCARDrnVERSION:4.0rnFN:Forrest GumprnN:Gump;Forrest;;Mr.;rnADR;TYPE=WORK;PREF=1:;100;Waters Edge;Baytown;LA;30314;United States ofrn  AmericarnADR;TYPE=HOME:;42;Plantation St.;Baytown;LA;30314;United States of AmericarnTEL;TYPE=WORK,VOICE:111 555 1212rnTEL;TYPE=HOME,VOICE:404 555 1212rnEMAIL:forrestgump@example.comrnORG:Bubba Gump Shrimp Co.rnTITLE:Shrimp ManrnURL:http://www.example.com/dir_photos/my_photo.gifrnPHOTO;TYPE=image/gif:http://www.example.com/dir_photos/my_photo.gifrnSORT-STRING:Forrest GumprnREV:2008-04-24T19:52:43ZrnEND:VCARDrn
+BEGIN:VCARD\r
+VERSION:4.0\r
+FN:Forrest Gump\r
+N:Gump;Forrest;;Mr.;\r
+ADR;TYPE=WORK;PREF=1:;100;Waters Edge;Baytown;LA;30314;United States of\r
+  America\r
+ADR;TYPE=HOME:;42;Plantation St.;Baytown;LA;30314;United States of America\r
+TEL;TYPE=WORK,VOICE:111 555 1212\r
+TEL;TYPE=HOME,VOICE:404 555 1212\r
+EMAIL:forrestgump@example.com\r
+ORG:Bubba Gump Shrimp Co.\r
+TITLE:Shrimp Man\r
+URL:http://www.example.com/dir_photos/my_photo.gif\r
+PHOTO;TYPE=image/gif:http://www.example.com/dir_photos/my_photo.gif\r
+SORT-STRING:Forrest Gump\r
+REV:2008-04-24T19:52:43Z\r
+END:VCARD\r
