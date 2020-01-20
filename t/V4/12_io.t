@@ -60,10 +60,6 @@ SKIP: {
     is diff( $fh_got, $fh_expected ), '', 'as_file()';  # 3
     close $fh_got;
     close $fh_expected;
-    
-    #is compare(
-    #    $got, path( 't', 'V4', 'Expected', 'win32.vcf' ), sub{ return $_[0] if $_[0] ne $_[1]; return 0 }
-    #), 0, 'as_file()'; # 2
 
     note 'Got';
     open my $fh, '<', $got;
