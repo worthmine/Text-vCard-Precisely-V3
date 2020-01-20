@@ -54,7 +54,7 @@ my $got = path('got.vcf');
 
 SKIP: {
     skip "it's not a Windows PC", 1 unless $^O eq 'MSWin32';
-    is compare( $got, path( 't', 'V4', 'Expected', 'win32.vcf' ) ), 0, 'as_file()'; # 2
+    is compare_text( $got, path( 't', 'V4', 'Expected', 'win32.vcf' ) ), 0, 'as_file()'; # 2
 
     note 'Got';
     open my $fh, '<', $got;
@@ -64,7 +64,7 @@ SKIP: {
     }
     close $fh;
 
-    note 'Expected';
+    note "\r\nExpected";
     open $fh, '<', $got;
     while( my $l = <$fh> ){
         $l =~ s/\r\n/\\r\\n\r\n/sg;
