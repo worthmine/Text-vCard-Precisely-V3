@@ -59,8 +59,7 @@ SKIP: {
     note 'Got';
     open my $fh, '<', $got;
     while( my $l = <$fh> ){
-        $l =~ s/\r/\\r/sg;
-        $l =~ s/\n/\\n\n/sg;
+        $l =~ s/\r\n/\\r\\n\r\n/sg;
         note $l;
     }
     close $fh;
@@ -68,6 +67,7 @@ SKIP: {
     note 'Expected';
     open $fh, '<', $got;
     while( my $l = <$fh> ){
+        $l =~ s/\r\n/\\r\\n\r\n/sg;
         note $l;
     }
     close $fh;
