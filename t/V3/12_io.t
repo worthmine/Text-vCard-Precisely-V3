@@ -52,14 +52,23 @@ is $string, $data, 'as_string()';                                               
 
 $vc->as_file('got.vcf');
 my $got = path('got.vcf');
-
 SKIP: {
     skip "it's not a Windows PC", 1 unless $^O eq 'MSWin32';
-    is compare( $got, path( 't', 'V3', 'Expected', 'win32.vcf' ) ), 0, 'as_file()'; # 5
-    while( my $l = <$got>){
-        note $l;
-    }
+    
+    my $expected = path( 't', 'V3', 'Expected', 'win32.vcf' );
+    open my $fh_got, '<', $got;
+    open my $fh_expected, '<', $expected;
+    is diff( $fh_got, $fh_expected ), '', 'as_file()';  # 3
+    close $fh_got;
+    close $fh_expected;
 }
+#SKIP: {
+#    skip "it's not a Windows PC", 1 unless $^O eq 'MSWin32';
+#    is compare( $got, path( 't', 'V3', 'Expected', 'win32.vcf' ) ), 0, 'as_file()'; # 5
+#    while( my $l = <$got>){
+#        note $l;
+#    }
+#}
 SKIP: {
     skip "it's a Windows PC", 1 if $^O eq 'MSWin32';
     is compare( $got, path( 't', 'V3', 'Expected', 'unix.vcf' ) ), 0, 'as_file()';  # 6
