@@ -77,6 +77,7 @@ SKIP: {
     open $fh, '<', $expected;
     while( my $l = <$fh> ){
         $l =~ s/\r\n/\\r\\n\r\n/sg;
+        $l =~ s/\n/\\n\n/sg;
         note $l;
     }
     close $fh;
