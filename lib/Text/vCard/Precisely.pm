@@ -1,4 +1,3 @@
-# ABSTRACT: turns baubles into trinkets
 package Text::vCard::Precisely;
 
 our $VERSION = '0.18';
@@ -99,8 +98,9 @@ Text::vCard::Precisely - Read, Write and Edit the vCards 3.0 and/or 4.0 precisel
 
 =head1 DESCRIPTION
 
-A vCard is a digital business card. vCard and L<Text::vFile::asData|https://github.com/richardc/perl-text-vfile-asdata>
-provide an API for parsing vCards
+A vCard is a digital business card.
+vCard and L<Text::vFile::asData|https://github.com/richardc/perl-text-vfile-asdata> provides an API for parsing vCards
+
 This module is forked from L<Text::vCard|https://github.com/ranguard/text-vcard>
 because some reason below:
 

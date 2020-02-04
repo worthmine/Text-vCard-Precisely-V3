@@ -181,6 +181,8 @@ sub load_hashref {
         next unless $method and $content;
         if ( ref $content eq 'Hash' ) {
             $self->$method( { name => uc($key), %$content } );
+        }elsif( ref $content eq 'Array'  ){
+            $self->$method( { name => uc($key), @$content } );
         }else{
             $self->$method($content);
         }
@@ -712,7 +714,12 @@ To specify the identifier for the product that created the vCard object
 
 =cut
 
-has prodid => ( is => 'rw', isa => 'Str' );
+subtype 'ProdID' => as 'Str';
+coerce 'ProdID',
+    from 'ArrayRef[HashRef]',
+    via { $_[0]->[0]{'content'} };
+has prodid => ( is => 'rw', isa => 'ProdID', coerce => 1 );
+
 
 =head2 source()
 

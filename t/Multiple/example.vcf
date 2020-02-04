@@ -1,0 +1,49 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 11.2//EN
+N:;Alice;;;
+FN:Alice
+EMAIL;type=INTERNET;type=pref:alice@example.com
+TEL;type=CELL;type=VOICE;type=pref:090-0123-4567
+REV:2017-12-02T11:21:01Z
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 11.2//EN
+N:;Bob;;;
+FN:Bob
+EMAIL;type=INTERNET;type=pref:bob@example.com
+TEL;type=CELL;type=VOICE;type=pref:090-0000-1234
+REV:2017-12-02T11:21:01Z
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 11.2//EN
+N:;Chris;;;
+FN:Chris
+EMAIL;type=INTERNET;type=pref:chris@example.com
+TEL;type=CELL;type=VOICE;type=pref:090-0100-4567
+REV:2017-12-02T11:21:01Z
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 11.2//EN
+N:;Dave;;;
+FN:Dave
+EMAIL;type=INTERNET;type=pref:dave@example.com
+TEL;type=CELL;type=VOICE;type=pref:090-0200-7890
+REV:2017-12-02T11:21:01Z
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 11.2//EN
+N:;Edward;;;
+FN:Edward
+EMAIL;type=INTERNET;type=pref:edward@example.com
+TEL;type=CELL;type=VOICE;type=pref:090-0300-0000
+REV:2017-12-02T11:21:01Z
+END:VCARD
