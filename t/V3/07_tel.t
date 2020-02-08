@@ -32,7 +32,7 @@ is $vc->as_string(), $expected_content, 'tel(ArrayRef of HashRef)';             
 $in_file = path( 't', 'V3', 'Tel', 'multiTypes.vcf' );
 $expected_content = $in_file->slurp_utf8();
 
-$vc->tel({ types => [qw(cell voice pref)], content => '0120-000-000' });
+$vc->tel({ types => [qw(cell voice)], content => '0120-000-000', preferred => 1 });
 
 is $vc->as_string(), $expected_content, 'tel(HashRefWithMultiTypes)';              # 4
 

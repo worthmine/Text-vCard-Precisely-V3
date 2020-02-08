@@ -179,7 +179,6 @@ sub load_hashref {
     while ( my ( $key, $content ) = each %$hashref ) {
         my $method = $self->can( lc $key );
         next unless $method and $content;
-        #if( $key eq 'TEL'){ ::note ::explain $content };
         if ( ref $content eq 'Hash' ) {
             $self->$method( { name => uc($key), %$content } );
         }elsif( ref $content eq 'Array'  ){
@@ -202,7 +201,6 @@ sub load_file {
     open my $vcf, "<", $filename or croak "couldn't open vcf: $!";
     my $data = $vf->parse($vcf)->{'objects'}[0];
     close $vcf;
-    #::note ::explain $data->{'properties'};
     
     croak "$filename is NOT a vCard file." unless $data->{'type'} eq 'VCARD';
 
@@ -327,11 +325,8 @@ sub _make_types {
         my $method = $self->can( lc $node );
         croak "the Method you provided, $node is not supported." unless $method;
         if( ref $self->$method eq 'ARRAY' ) {
-            #::note $node;
             foreach my $item ( @{ $self->$method } ){
-                if( $item->isa('Text::vCard::Precisely::V3::Node::Tel') ){
-                    $str .= $item->as_string();
-                }elsif( $item->isa('Text::vCard::Precisely::V3::Node') ){
+                if( $item->isa('Text::vCard::Precisely::V3::Node') ){
                     $str .= $item->as_string();
                 }elsif($item){
                     $str .= uc($node) . ":" . $item->as_string() . $cr;
