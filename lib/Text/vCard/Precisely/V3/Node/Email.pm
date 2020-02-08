@@ -28,7 +28,7 @@ override 'as_string' => sub {
     push @lines, $self->name || croak "Empty name";
     push @lines, 'ALTID=' . $self->altID if $self->can('altID') and $self->altID;
     push @lines, 'PID=' . join ',', @{ $self->pid } if $self->can('pid') and $self->pid;
-    push @lines, 'TYPE=' . join( ',', map { uc $_ } @{ $self->types } ) if @{ $self->types || [] } > 0;
+    push @lines, 'TYPE=' . join( ';TYPE=', map { uc $_ } @{ $self->types } ) if @{ $self->types || [] } > 0;
 
     my $string = join(';', @lines ) . ':' . $self->content;
     return $self->fold( $string, -force => 1 );

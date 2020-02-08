@@ -19,24 +19,29 @@ has content => (is => 'ro', default => '', isa => 'Str' );
 subtype 'TelType'
     => as 'Str'
     => where {
-        m/^(?:work|home)$/is or #common
+        m/^(?:work|home|pref)$/is or #common
         m/^(?:text|voice|fax|cell|video|pager|textphone)$/is # for tel
     }
     => message { "The text you provided, $_, was not supported in 'TelType'" };
-has types => ( is => 'rw', isa => 'ArrayRef[Maybe[TelType]]');
+has types => ( is => 'rw', isa => 'ArrayRef[Maybe[TelType]]', default => sub{ [] }, );
 
 override 'as_string' => sub {
     my ($self) = @_;
-    my @lines;
+    my( @lines, @types );
     push @lines, $self->name || croak "Empty name";
-    push @lines, 'ALTID=' . $self->altID if $self->can('altID') and $self->altID;
-    push @lines, 'PID=' . join ',', @{ $self->pid } if $self->can('pid') and $self->pid;
-    push @lines, 'TYPE=' . join( ',', map { uc $_ } @{ $self->types } ) if @{ $self->types || [] } > 0;
+    push @lines, 'ALTID=' . $self->altID() if $self->can('altID') and $self->altID();
+    push @lines, 'PID=' . join ',', @{ $self->pid() } if $self->can('pid') and $self->pid();
+    foreach ( @{$self->types()} ){
+        push @types, uc $_ if length $_;
+    }
+    my $types = 'TYPE="' . join( ',', @types ) . '"' if @types;
+    push @lines, $types if $types;
 
-    ( my $content = $self->content ) =~ s/^ //s;    # remove top space
-    $content =~ s/(?:(?!\A)\D|\()+/ /sg;            # replace symbols to space
-    $content =~ s/^ //s;                            # remove top space again
-    my $string = join(';', @lines ) . ':' . $content;
+    #( my $content = $self->content() ) =~ s/^ //s;  # remove top space
+    #$content =~ s/(?:(?!\A)\D|\()+/ /sg;            # replace symbols to space
+    #$content =~ s/^ //s;                            # remove top space again
+    #my $string = join(';', @lines ) . ':' . $content;
+    my $string = join(';', @lines ) . ':' . $self->content();
     return $self->fold( $string, -force => 1 );
 };
 

@@ -12,7 +12,9 @@ my $vcm = new_ok('Text::vCard::Precisely::Multiple');                           
 
 my $path = path( 't', 'Multiple', 'example.vcf' );
 $vcm->load_file($path);
+
 foreach my $vc ( $vcm->all_options() ){
+    next unless $vc->fn();
     #note $vc->as_string();
     $vc->fn()->[0] =~ /^FN:(\w+)/;
     is $vc->isa('Text::vCard::Precisely'), 1, "loading vCard for $1 succeeded.";                        # 3-7
@@ -21,7 +23,8 @@ foreach my $vc ( $vcm->all_options() ){
 my $got = $vcm->as_file('got.vcf');
 open my $fh_got, '<', $got;
 open my $fh_expected, '<', $path;
-is diff( $fh_got, $fh_expected ), '', "method as_file succeeded.";    #10
+
+is diff( $fh_got, $fh_expected ), '', "method as_file succeeded.";                                      # 8
 close $fh_got;
 close $fh_expected;
 $got->remove();
@@ -30,12 +33,10 @@ my $arrayref = [];
 my $e = get_data_section('array.pl');
 eval $e or die $@;
 $vcm->load_arrayref($arrayref);
-is $vcm->count_options(), 2, "loading from ArrayRef succeeded.";                                        # 8
+is $vcm->count_options(), 2, "loading from ArrayRef succeeded.";                                        # 9
 
 ( my $gump = get_data_section('Gump') ) =~ s/\n/\r\n/g;
-is $vcm->as_string(), $gump, "method as_string succeeded.";                                             # 9;
-
-#note explain $vcm;
+is $vcm->as_string(), $gump, "method as_string succeeded.";                                             #10
 
 done_testing;
 
@@ -95,7 +96,7 @@ FN:Forrest Gump
 N:Gump;Forrest;;Mr.;
 ADR;TYPE=WORK;PREF=1:;100;Waters Edge;Baytown;LA;30314;United States of
   America
-TEL;TYPE=WORK,VOICE:111 555 1212
+TEL;TYPE="WORK,VOICE":(111) 555-1212
 EMAIL:forrestgump@example.com
 ORG:Bubba Gump Shrimp Co.
 TITLE:Shrimp Man
@@ -108,7 +109,7 @@ VERSION:3.0
 FN:Forrest Gump
 N:Gump;Forrest;;Mr.;
 ADR;TYPE=HOME:;42;Plantation St.;Baytown;LA;30314;United States of America
-TEL;TYPE=HOME,VOICE:404 555 1212
+TEL;TYPE="HOME,VOICE":(404) 555-1212
 EMAIL:forrestgump@example.com
 ORG:Bubba Gump Shrimp Co.
 TITLE:Shrimp Man

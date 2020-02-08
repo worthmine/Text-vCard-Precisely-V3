@@ -118,7 +118,7 @@ And this module does not check or warn if these conditions have not been met.
 =cut
 
 use Text::vFile::asData;
-my $vf = Text::vFile::asData->new;
+my $vf = Text::vFile::asData->new({ preserve_params => 1 });
 
 use Text::vCard::Precisely::V3::Node;
 use Text::vCard::Precisely::V3::Node::N;
@@ -179,10 +179,11 @@ sub load_hashref {
     while ( my ( $key, $content ) = each %$hashref ) {
         my $method = $self->can( lc $key );
         next unless $method and $content;
+        #if( $key eq 'TEL'){ ::note ::explain $content };
         if ( ref $content eq 'Hash' ) {
             $self->$method( { name => uc($key), %$content } );
         }elsif( ref $content eq 'Array'  ){
-            $self->$method( { name => uc($key), @$content } );
+            $self->$method({ name => uc($key), @$content });
         }else{
             $self->$method($content);
         }
@@ -201,9 +202,11 @@ sub load_file {
     open my $vcf, "<", $filename or croak "couldn't open vcf: $!";
     my $data = $vf->parse($vcf)->{'objects'}[0];
     close $vcf;
+    #::note ::explain $data->{'properties'};
+    
     croak "$filename is NOT a vCard file." unless $data->{'type'} eq 'VCARD';
 
-    my $hashref = $self->_make_hashref($data);
+    my $hashref = $self->_make_hashref($data->{'properties'});
     $self->load_hashref($hashref);
 }
 
@@ -217,7 +220,7 @@ sub load_string {
     my ( $self, $str ) = @_;
     my @lines = split /\r\n/, $str;
     my $data = $vf->parse_lines(@lines);
-    my $hashref = $self->_make_hashref($data->{'objects'}[0]);
+    my $hashref = $self->_make_hashref($data->{'objects'}[0]->{properties});
     $self->load_hashref($hashref);
 }
 
@@ -230,6 +233,20 @@ sub _make_hashref {
             if( $name eq 'N' ){
                 my @names = split /(?<!\\);/, $node->{'value'};
                 $hashref->{$name} ||= \@names;
+            }elsif( $name eq 'TEL' ){
+                my $content = $node->{'value'};
+                $hashref->{$name} = [] unless exists $hashref->{$name};
+                if( ref($node->{'params'}) eq 'ARRAY' ){
+                    my @types = map{ values %$_ } @{$node->{'params'}};
+                    push @{$hashref->{$name}}, { types => \@types, content => $content };
+                }elsif( ref($node->{'param'}) eq 'HASH' ){
+                    push my @types, sort @{$node->{'params'}} if ref $node->{'params'};
+                    push @{$hashref->{$name}}, { types => \@types, content => $content };
+                }else{
+                    push my @types, $node->{'param'};
+                    push @{$hashref->{$name}}, { types => \@types, content => $content };
+                }
+                $hashref->{$name} ||= $content;
             }elsif( $name eq 'REV' ){
                 $hashref->{$name} ||= $node->{'value'};
             }elsif( $name eq 'ADR' ){
@@ -309,11 +326,14 @@ sub _make_types {
         $node =~ tr/-/_/;
         my $method = $self->can( lc $node );
         croak "the Method you provided, $node is not supported." unless $method;
-        if ( ref $self->$method eq 'ARRAY' ) {
+        if( ref $self->$method eq 'ARRAY' ) {
+            #::note $node;
             foreach my $item ( @{ $self->$method } ){
-                if ( $item->isa('Text::vCard::Precisely::V3::Node') ){
+                if( $item->isa('Text::vCard::Precisely::V3::Node::Tel') ){
                     $str .= $item->as_string();
-                }elsif($item) {
+                }elsif( $item->isa('Text::vCard::Precisely::V3::Node') ){
+                    $str .= $item->as_string();
+                }elsif($item){
                     $str .= uc($node) . ":" . $item->as_string() . $cr;
                 }
             }
@@ -445,8 +465,8 @@ has n => ( is => 'rw', isa => 'N', coerce => 1 );
  Accepts/returns an ArrayRef that looks like:
 
  [
- { type => ['work'], content => '651-290-1234', preferred => 1 },
- { type => ['home'], content => '651-290-1111' },
+    { type => ['work'], content => '651-290-1234', preferred => 1 },
+    { type => ['home'], content => '651-290-1111' },
  ]
  
 =cut
@@ -454,11 +474,11 @@ has n => ( is => 'rw', isa => 'N', coerce => 1 );
 subtype 'Tels' => as 'ArrayRef[Text::vCard::Precisely::V3::Node::Tel]';
 coerce 'Tels',
     from 'Str',
-    via { [ Text::vCard::Precisely::V3::Node::Tel->new({ content => $_ }) ] },
+    via {[ Text::vCard::Precisely::V3::Node::Tel->new({ content => $_ }) ]},
     from 'HashRef',
-    via { [ Text::vCard::Precisely::V3::Node::Tel->new($_) ] },
+    via {[       Text::vCard::Precisely::V3::Node::Tel->new({ %$_, types => [@{ $_->{'types'} || [] }] }) ]},
     from 'ArrayRef[HashRef]',
-    via { [ map { Text::vCard::Precisely::V3::Node::Tel->new($_) } @$_ ] };
+    via {[ map { Text::vCard::Precisely::V3::Node::Tel->new({ %$_, types => [@{ $_->{'types'} || [] }], %$_ }) } @$_ ]};
 has tel => ( is => 'rw', isa => 'Tels', coerce => 1 );
 
 =head2 adr(), address()
