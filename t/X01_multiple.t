@@ -23,7 +23,6 @@ foreach my $vc ( $vcm->all_options() ){
 my $got = $vcm->as_file('got.vcf');
 open my $fh_got, '<', $got;
 open my $fh_expected, '<', $path;
-
 is diff( $fh_got, $fh_expected ), '', "method as_file succeeded.";                                      # 8
 close $fh_got;
 close $fh_expected;
