@@ -68,10 +68,11 @@ sub as_string {
     push @lines, 'PREF=' . $self->pref() if $self->pref();
     push @lines, 'LANGUAGE=' . $self->language() if $self->language();
 
+    my $content = $self->content();
     my $string = join(';', @lines ) . ':' . (
-        ref( $self->content() ) eq 'Array'?
-        map{ $node =~ /^(:?LABEL|GEO)$/s? $self->content() : $self->_escape($_) } @{ $self->content() }:
-        $node =~ /^(:?LABEL|GEO)$/s? $self->content(): $self->_escape( $self->content() )
+        ref($content) eq 'Array'?
+        map{ $node =~ /^(:?LABEL|GEO)$/s? $content : $self->_escape($_) } @$content:
+        $node =~ /^(:?LABEL|GEO)$/s? $content: $self->_escape($content)
     );
     return $self->fold($string);
 }
