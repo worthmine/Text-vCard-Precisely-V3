@@ -361,8 +361,8 @@ sub _fold {
     );
     $str = $lf->fold( "", "  ", $str );
     if( $^O eq 'MSWin32' ){
-        $str =~ s/\n\n/\n/g;
-        $str =~ s/\r\r/\r/g;
+        die '\n\n is there' if $str =~ /\n\n/;
+        die '\r\r is there' if $str =~ /\r\r/;
     }
     return $str;
 }
