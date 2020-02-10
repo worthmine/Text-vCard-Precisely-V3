@@ -360,6 +360,9 @@ sub _fold {
         Newline => $cr,
     );
     $str = $lf->fold( "", "  ", $str );
+    if( $^O eq 'MSWin32' ){
+        $str =~ s/\n\n/\n/g;
+    }
     return $str;
 }
 
