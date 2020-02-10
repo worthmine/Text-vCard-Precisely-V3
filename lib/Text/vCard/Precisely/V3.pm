@@ -360,11 +360,6 @@ sub _fold {
         Newline => $cr,
     );
     $str = $lf->fold( "", "  ", $str );
-    if( $^O eq 'MSWin32' ){
-        ::note( '\n is there' ) if $str =~ /\n/;
-        ::note( '\r is there' ) if $str =~ /\r/;
-        ::note( '\r\n is there' ) if $str =~ /\r\n/;
-    }
     return $str;
 }
 
