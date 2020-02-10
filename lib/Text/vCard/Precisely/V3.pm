@@ -380,7 +380,8 @@ sub as_file {
     croak "No filename was set!" unless $filename;
     
     my $file = path($filename);
-    $file->spew( {binmode => ":encoding(UTF-8)"}, $self->as_string() );
+    #$file->spew( {binmode => ":encoding(UTF-8)"}, $self->as_string() );
+    $file->spew_utf8( $self->as_string() );
     return $file;
 }
 
