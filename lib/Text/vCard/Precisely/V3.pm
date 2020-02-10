@@ -363,7 +363,7 @@ sub _fold {
     if( $^O eq 'MSWin32' ){
         die '\n\n is there' if $str =~ /\n\n/;
         die '\r\r is there' if $str =~ /\r\r/;
-        ::note '\r\n is there' if $str =~ /\r\r/;
+        ::note( '\r\n is there' ) if $str =~ /\r\n/;
     }
     return $str;
 }
