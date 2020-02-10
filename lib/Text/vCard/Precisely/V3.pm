@@ -362,6 +362,7 @@ sub _fold {
     $str = $lf->fold( "", "  ", $str );
     if( $^O eq 'MSWin32' ){
         $str =~ s/\n\n/\n/g;
+        $str =~ s/\r\r/\r/g;
     }
     return $str;
 }
