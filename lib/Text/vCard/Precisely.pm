@@ -65,7 +65,7 @@ Text::vCard::Precisely - Read, Write and Edit the vCards 3.0 and/or 4.0 precisel
     street    => 'Waters Edge',
     city      => 'Baytown',
     region    => 'LA',
-    post_code => '30314,
+    post_code => '30314',
     country   => 'United States of America',
  });
 
